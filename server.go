@@ -29,7 +29,7 @@ import (
 	"github.com/pion/interceptor"
 	"github.com/pion/rtcp"
 	"github.com/pion/webrtc/v3"
-	"intercom/signal"
+	//"github.com/mike-drucker/intercom/signal"
 	//"github.com/pion/webrtc/v3/examples/internal/signal"
 	"github.com/pion/webrtc/v3/pkg/media"
 	//"github.com/pion/webrtc/v3/pkg/media/ivfwriter"
@@ -90,7 +90,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	homeTemplate.Execute(w, "wss://"+r.Host+"/intercom/echo")
 }
 
-func receive(offer string, c http.ResponseWriter) {
+func receive(offerString string, c http.ResponseWriter) {
    //webrtc save-to-disk section
   // Create a MediaEngine object to configure the supported codec
 	m := &webrtc.MediaEngine{}
@@ -167,7 +167,11 @@ func receive(offer string, c http.ResponseWriter) {
 			saveToDisk(oggFile, track)
 		}
 	})
-	/*
+	
+	// parse offer string
+	offer := webrtc.SessionDescription{}
+	signal.Decode(offerString, &offer)
+	
   // Set the remote SessionDescription
 	err = peerConnection.SetRemoteDescription(offer)
 	if err != nil {
@@ -197,7 +201,7 @@ func receive(offer string, c http.ResponseWriter) {
 	
 	// Block forever
 	select {}
-	*/
+	
 }
 
 
