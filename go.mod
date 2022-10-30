@@ -1,4 +1,4 @@
-module intercom
+module github.com/mike-drucker/intercom
 
 go 1.13
 
