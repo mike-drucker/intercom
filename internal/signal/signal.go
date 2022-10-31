@@ -1,6 +1,6 @@
 // Package signal contains helpers to exchange the SDP session
 // description between examples.
-package internal
+package signal
 
 import (
 	"bufio"
