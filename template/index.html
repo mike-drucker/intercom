@@ -2,55 +2,70 @@
   <head>
     <script>
     /*WS SECTION*/
+    var ws;
+    var output;
+    var input;
     window.addEventListener("load", function(evt) {
-     var output = document.getElementById("output");
-      var input = document.getElementById("input");
-      var ws;
-      var print = function(message) {
-          var d = document.createElement("div");
-          d.textContent = message;
-          output.appendChild(d);
-          output.scroll(0, output.scrollHeight);
-      };
+      output = document.getElementById("output");
+      input = document.getElementById("input");
       document.getElementById("open").onclick = function(evt) {
-          if (ws) {
-              return false;
-          }
-          ws = new WebSocket("{{.}}");
-          window.ws = ws;
-          
-          ws.onopen = function(evt) {
-              print("OPEN");
-          }
-          ws.onclose = function(evt) {
-              print("CLOSE");
-              ws = null;
-          }
-          ws.onmessage = function(evt) {
-              print("RESPONSE: " + evt.data);
-          }
-          ws.onerror = function(evt) {
-              print("ERROR: " + evt.data);
-          }
-          return false;
+        openWS();
       };
       document.getElementById("send").onclick = function(evt) {
-          if (!ws) {
-              return false;
-          }
-          print("SEND: " + input.value);
-          ws.send(input.value);
-          return false;
+        sendWS();
       };
       document.getElementById("close").onclick = function(evt) {
-          if (!ws) {
-              return false;
-          }
-          ws.close();
-          return false;
+        closeWS();
       };
     });
     
+function print(message) { 
+  var d = document.createElement("div");
+  d.textContent = message;
+  output.appendChild(d);
+  output.scroll(0, output.scrollHeight);
+};
+
+async function openWS() {
+  if (ws) {
+      return false;
+  }
+  ws = new WebSocket("{{.}}");
+  window.ws = ws;
+
+  ws.onopen = function(evt) {
+      print("OPEN");
+  }
+  ws.onclose = function(evt) {
+      print("CLOSE");
+      ws = null;
+  }
+  ws.onmessage = function(evt) {
+      print("RESPONSE: " + evt.data);
+  }
+  ws.onerror = function(evt) {
+      print("ERROR: " + evt.data);
+  }
+  return false;
+}
+      
+function sendWS() {
+  if (!ws) {
+      return false;
+  }
+  print("SEND: " + input.value);
+  ws.send(input.value);
+  return false;
+}
+      
+function closeWS() {
+  if (!ws) {
+    return false;
+  }
+  ws.close();
+  return false;
+}
+      
 /* WEBRTC SECTION */
       var log = (msg,e=null) => {
         document.getElementById('logs').innerHTML += msg + '<br>'
