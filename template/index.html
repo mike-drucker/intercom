@@ -10,7 +10,7 @@
       input = document.getElementById("input");
       
       Promise.all([initWebRTC()]);
-      await openWS();
+      Promise.all([openWS()]);
       
       
       
