@@ -10,6 +10,7 @@
       input = document.getElementById("input");
       
       Promise.all([openWS(),createOffer()]);
+      ws.send(btoa(JSON.stringify(pc.localDescription)));
       
       document.getElementById("open").onclick = function(evt) {
         openWS();
