@@ -9,8 +9,7 @@
       output = document.getElementById("output");
       input = document.getElementById("input");
       
-      var ready = await initWebRTC();
-      openWS();
+      initWebRTC().then(pc=>openWS(pc));
       
       
       
@@ -33,7 +32,7 @@ function print(message) {
   output.scroll(0, output.scrollHeight);
 };
 
-function openWS() {
+function openWS(pc) {
   if (ws) {
       return ws;
   }
@@ -109,6 +108,7 @@ function closeWS() {
          await pc.setLocalDescription(offer);
          console.log(JSON.stringify(pc.localDescription));
          console.log(btoa(JSON.stringify(pc.localDescription)));
+         return pc;
       }
      /*
       navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
