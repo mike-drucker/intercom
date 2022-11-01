@@ -205,7 +205,7 @@ func receive(offerString string, c *websocket.Conn) {
 	fmt.Println("----------------------------------")
 	fmt.Println("ENCODED:",signal.Encode(*peerConnection.LocalDescription()))
 	//TODO: figure out how to use websocket.Conn.WriteMessage
-	c.WriteMessage(0,[]byte(signal.Encode(*peerConnection.LocalDescription())))
+	c.WriteMessage(websocket.TextMessage,[]byte(signal.Encode(*peerConnection.LocalDescription())))
 	
 	// Block forever
 	select {}
