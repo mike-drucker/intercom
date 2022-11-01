@@ -9,7 +9,7 @@
       output = document.getElementById("output");
       input = document.getElementById("input");
       
-      Promise.all([openWS(),createOffer()]);
+      Promise.all([openWS(),initWebRTC()]);
       ws.send(btoa(JSON.stringify(pc.localDescription)));
       
       
