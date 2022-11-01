@@ -201,6 +201,8 @@ func receive(offerString string, c *websocket.Conn) {
 	fmt.Println("gatherComplete:")
 	//send
 	fmt.Println("Localdescription:",peerConnection.LocalDescription())
+	fmt.Println("----------------------------------")
+	fmt.Println("ENCODED:",signal.Encode(*peerConnection.LocalDescription()))
 	c.WriteMessage(0,[]byte(signal.Encode(*peerConnection.LocalDescription())))
 	
 	// Block forever
