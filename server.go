@@ -29,8 +29,8 @@ import (
 	"github.com/pion/interceptor"
 	"github.com/pion/rtcp"
 	"github.com/pion/webrtc/v3"
-	//"github.com/mike-drucker/intercom/signal"
-	//"github.com/pion/webrtc/v3/examples/internal/signal"
+	"github.com/mike-drucker/intercom/internal/signal"
+	//"github.com/pion/webrtc/v3/examples/internal"
 	"github.com/pion/webrtc/v3/pkg/media"
 	//"github.com/pion/webrtc/v3/pkg/media/ivfwriter"
 	"github.com/pion/webrtc/v3/pkg/media/oggwriter"
@@ -73,7 +73,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		if len(message) > 100 {
-		  receive(string(message),w)
+		  receive(string(message),c)
 		  continue
 		}
 		
@@ -90,7 +90,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	homeTemplate.Execute(w, "wss://"+r.Host+"/intercom/echo")
 }
 
-func receive(offerString string, c http.ResponseWriter) {
+func receive(offerString string, c *websocket.Conn) {
    //webrtc save-to-disk section
   // Create a MediaEngine object to configure the supported codec
 	m := &webrtc.MediaEngine{}
@@ -197,7 +197,7 @@ func receive(offerString string, c http.ResponseWriter) {
 	// in a production application you should exchange ICE Candidates via OnICECandidate
 	<-gatherComplete
 	//send
-	c.WriteMessage(0,signal.Encode(*peerConnection.LocalDescription()))
+	c.WriteMessage(0,[]byte(signal.Encode(*peerConnection.LocalDescription())))
 	
 	// Block forever
 	select {}
