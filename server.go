@@ -4,6 +4,7 @@
 
 // CREATED FROM https://github.com/gorilla/websocket/tree/master/examples/echo
 // CREATED FROM https://github.com/pion/webrtc/tree/master/examples/save-to-disk
+// CREATED FROM https://github.com/pion/example-webrtc-applications/blob/master/gstreamer-receive/main.go
 // REQUIRES MODULE MODE
 //   export GO111MODULE=on
 
@@ -30,10 +31,12 @@ import (
 	"github.com/pion/rtcp"
 	"github.com/pion/webrtc/v3"
 	"github.com/mike-drucker/intercom/internal/signal"
-	//"github.com/pion/webrtc/v3/examples/internal"
 	"github.com/pion/webrtc/v3/pkg/media"
-	//"github.com/pion/webrtc/v3/pkg/media/ivfwriter"
-	"github.com/pion/webrtc/v3/pkg/media/oggwriter"
+	//"github.com/pion/webrtc/v3/pkg/media/oggwriter"
+  //gstreamer imports
+  "time"
+  "runtime"
+	gst "github.com/mike-drucker/intercom/internal/gstreamer-sink"
 )
 
 
@@ -142,11 +145,6 @@ func receive(offerString string, c *websocket.Conn) {
 	if _, err = peerConnection.AddTransceiverFromKind(webrtc.RTPCodecTypeAudio); err != nil {
 		panic(err)
 	}
-
-	oggFile, err := oggwriter.New("output.ogg", 48000, 2)
-	if err != nil {
-		panic(err)
-	}
 	
 	// Set a handler for when a new remote track starts, this handler saves buffers to disk as
 	// an ivf file, since we could have multiple video tracks we provide a counter.
@@ -163,10 +161,18 @@ func receive(offerString string, c *websocket.Conn) {
 			}
 		}()
 
-		codec := track.Codec()
-		if strings.EqualFold(codec.MimeType, webrtc.MimeTypeOpus) {
-			fmt.Println("Got Opus track, saving to disk as output.opus (48 kHz, 2 channels)")
-			saveToDisk(oggFile, track)
+		codecName := strings.Split(track.Codec().RTPCodecCapability.MimeType, "/")[1]
+    fmt.Printf("Track has started, of type %d: %s \n", track.PayloadType(), codecName)
+    pipeline := gst.CreatePipeline(track.PayloadType(), strings.ToLower(codecName))
+    pipeline.Start()
+    buf := make([]byte, 1400)
+    for {
+			i, _, readErr := track.Read(buf)
+			if readErr != nil {
+				panic(err)
+			}
+
+			pipeline.Push(buf[:i])
 		}
 	})
 	
