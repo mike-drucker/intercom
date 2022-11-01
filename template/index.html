@@ -10,7 +10,7 @@
       input = document.getElementById("input");
       
       var ready = Promise.all([initWebRTC()]);
-      ws = Promise.all([openWS()]);
+      openWS();
       
       
       
@@ -33,7 +33,7 @@ function print(message) {
   output.scroll(0, output.scrollHeight);
 };
 
-async function openWS() {
+function openWS() {
   if (ws) {
       return ws;
   }
