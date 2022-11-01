@@ -57,7 +57,7 @@ async function openWS() {
   ws.onerror = function(evt) {
       print("ERROR: " + evt.data);
   }
-  return false;
+  return ws;
 }
       
 function sendWS() {
