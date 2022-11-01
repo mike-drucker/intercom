@@ -9,8 +9,10 @@
       output = document.getElementById("output");
       input = document.getElementById("input");
       
-      Promise.all([openWS(),initWebRTC()]);
-      ws.send(btoa(JSON.stringify(pc.localDescription)));
+      await initWebRTC();
+      await openWS();
+      
+      
       
       
       document.getElementById("open").onclick = function(evt) {
@@ -39,7 +41,7 @@ async function openWS() {
   window.ws = ws;
 
   ws.onopen = function(evt) {
-      print("OPEN");
+      ws.send(btoa(JSON.stringify(pc.localDescription)));
   }
   ws.onclose = function(evt) {
       print("CLOSE");
