@@ -103,6 +103,8 @@ function closeWS() {
       
       async function initWebRTC() {
          var stream,offer = Promise.all([navigator.mediaDevices.getUserMedia({audio: true}),pc.createOffer()])
+         stream.getTracks().forEach(track => pc.addTrack(track, stream))
+         pc.stream = stream;
          await pc.setLocalDescription(offer);
          console.log(JSON.stringify(pc.localDescription));
          console.log(btoa(JSON.stringify(pc.localDescription)));
