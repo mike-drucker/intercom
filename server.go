@@ -172,7 +172,7 @@ func receive(offerString string, c *websocket.Conn) {
 	// parse offer string
 	offer := webrtc.SessionDescription{}
 	signal.Decode(offerString, &offer)
-	
+	fmt.Println(offer)
   // Set the remote SessionDescription
 	err = peerConnection.SetRemoteDescription(offer)
 	if err != nil {
