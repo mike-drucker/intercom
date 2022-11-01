@@ -72,12 +72,13 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			log.Println("read:", err)
 			break
 		}
+                log.Printf("recv: %s", message)
 		if len(message) > 100 {
 		  receive(string(message),c)
 		  continue
 		}
 		
-		log.Printf("recv: %s", message)
+		
 		err = c.WriteMessage(mt, message)
 		if err != nil {
 			log.Println("write:", err)
