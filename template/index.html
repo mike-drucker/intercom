@@ -35,12 +35,13 @@ function print(message) {
 
 async function openWS() {
   if (ws) {
-      return false;
+      return ws;
   }
   ws = new WebSocket("{{.}}");
   window.ws = ws;
 
   ws.onopen = function(evt) {
+      print("OPEN");
       ws.send(btoa(JSON.stringify(pc.localDescription)));
   }
   ws.onclose = function(evt) {
