@@ -172,7 +172,7 @@ func receive(offerString string, c *websocket.Conn) {
 	// parse offer string
 	offer := webrtc.SessionDescription{}
 	signal.Decode(offerString, &offer)
-	fmt.Println(offer)
+	fmt.Println("Offer:",offer)
   // Set the remote SessionDescription
 	err = peerConnection.SetRemoteDescription(offer)
 	if err != nil {
@@ -184,7 +184,7 @@ func receive(offerString string, c *websocket.Conn) {
 	if err != nil {
 		panic(err)
 	}
-	
+	fmt.Println("Answer:",answer)
 	// Create channel that is blocked until ICE Gathering is complete
 	gatherComplete := webrtc.GatheringCompletePromise(peerConnection)
 	
@@ -193,11 +193,14 @@ func receive(offerString string, c *websocket.Conn) {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("SetLocalDescription:")
 	// Block until ICE Gathering is complete, disabling trickle ICE
 	// we do this because we only can exchange one signaling message
 	// in a production application you should exchange ICE Candidates via OnICECandidate
 	<-gatherComplete
+	fmt.Println("gatherComplete:")
 	//send
+	fmt.Println("Localdescription:",peerConnection.LocalDescription())
 	c.WriteMessage(0,[]byte(signal.Encode(*peerConnection.LocalDescription())))
 	
 	// Block forever
