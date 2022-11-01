@@ -61,6 +61,7 @@ var upgrader = websocket.Upgrader{} // use default options
 
 func echo(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
+	fmt.Printf("t1: %T\n", c)
 	if err != nil {
 		log.Print("upgrade:", err)
 		return
