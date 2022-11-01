@@ -216,5 +216,5 @@ func main() {
 }
 
 //global definition, replace static index declaration with this
-var homeTemplate = template.Must(template.ParseFiles("index.html"))
+var homeTemplate = template.Must(template.ParseFiles("template/index.html"))
 
