@@ -8,6 +8,9 @@
     window.addEventListener("load", function(evt) {
       output = document.getElementById("output");
       input = document.getElementById("input");
+      
+      Promise.all([openWS(),createOffer()]);
+      
       document.getElementById("open").onclick = function(evt) {
         openWS();
       };
@@ -80,13 +83,14 @@ function closeWS() {
       
       pc.oniceconnectionstatechange = (e) => log;
       /*
-      pc.createOffer()
-        .then((offer) => pc.setLocalDescription(offer))
-        .then((x)=> {
-            console.log(pc.localDescription);
-            console.log(JSON.stringify(pc.localDescription));
-            console.log(btoa(JSON.stringify(pc.localDescription)));
-      });*/
+      
+      async function createOffer() {
+         offer = await pc.createOffer();
+         pc.setLocalDescription(offer);
+         console.log(pc.localDescription);
+         console.log(JSON.stringify(pc.localDescription));
+         console.log(btoa(JSON.stringify(pc.localDescription)));
+      }
      
       navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
         // Create an AudioNode from the stream.
