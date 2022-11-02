@@ -30,6 +30,8 @@ github.com/mike-drucker/intercom v1.3.0 h1:tTHUOVuN4qWrd+ZQhrl7aVR2tH9ZM663QDzUJ
 github.com/mike-drucker/intercom v1.3.0/go.mod h1:I15OOrMvohrfm4H3fnBkrNukff7EK0lrzXF6mWpFpxA=
 github.com/mike-drucker/intercom v1.4.0 h1:d+KKQXx8OLqF021KxVctxEX/W5zC0nlKw0RPZsSVXnU=
 github.com/mike-drucker/intercom v1.4.0/go.mod h1:I15OOrMvohrfm4H3fnBkrNukff7EK0lrzXF6mWpFpxA=
+github.com/mike-drucker/intercom v1.6.0 h1:FcrYcUuOMg3ZWfXQKUqz0IX39PmJCfhOCxeay
+github.com/mike-drucker/intercom v1.6.0/go.mod h1:12BLVGwKcyCKsdvRFpFtSoXSRutHp+
 github.com/nxadm/tail v1.4.4/go.mod h1:kenIhsEOeOJmVchQTgglprH7qJGnHDVpk1VPCcaMI8A=
 github.com/nxadm/tail v1.4.8/go.mod h1:+ncqLTQzXmGhMZNUePPaPqPvBxHAIsmXswZKocGu+AU=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
